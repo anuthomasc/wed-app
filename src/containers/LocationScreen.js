@@ -46,17 +46,16 @@ class LocationScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <LinearGradient
-          colors={["#A8A3C3", "#FFD3FD", "#D1E1FD"]}
-          // colors={["#800080", "#ffc0cb"]}
-          style={styles.linearGradient}
-        >
-          <StatusBar
+          <View style={styles.contentContainer}>
+          <Image
+            source={require("../../assets/theme1.jpg")}
+            style={styles.backgroundImage}
+          />
+           <StatusBar
             // translucent={true}
-            backgroundColor={"transparent"}
+            backgroundColor={'rgba(0,0,0,0.4)'}
             barStyle={"light-content"}
           />
-          <View style={styles.contentContainer}>
             <View style={styles.engagementContainer}>
               <CardFlip
                 style={styles.engagementContentContainer}
@@ -70,7 +69,7 @@ class LocationScreen extends Component {
                   }}
                 >
                   <ImageBackground
-                    source={require("../../assets/hands.jpg")}
+                    source={require("../../assets/st_thomas.png")}
                     style={styles.engagementContentBackgroundImage}
                   >
                     <Image
@@ -99,7 +98,7 @@ class LocationScreen extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.engagementMapTouch}
-                 // onPress={() => this.card1.flip()}
+                 onPress={() =>this.props.navigation.navigate('MapView')}
                 >
                   <View style={{ flexDirection: "row" }}>
                     <View>
@@ -109,7 +108,7 @@ class LocationScreen extends Component {
                       />
                       <TouchableWithoutFeedback
                         onPress={() => {
-                          //this.props.navigation.navigate(Types.NEARBY_DIRECTION_SCREEN, selectedRestaurant);
+                         
                         }}
                       >
                         <View
@@ -119,7 +118,7 @@ class LocationScreen extends Component {
                             borderWidth: 0.7,
                             padding: responsiveHeight(1),
                             position: "absolute",
-                            right: responsiveHeight(4),
+                          //  right: responsiveHeight(4),
                             flexDirection: "row",
                             bottom: responsiveHeight(4),
                             backgroundColor:'#dd0000'
@@ -139,8 +138,7 @@ class LocationScreen extends Component {
                               fontSize: responsiveFontSize(1.3),
                               color: "#fff",
                               paddingLeft: responsiveWidth(2),
-                            }}
-                          >
+                            }}>
                             Directions
                           </Text>
                         </View>
@@ -164,10 +162,10 @@ class LocationScreen extends Component {
                 
                 <TouchableOpacity
                   style={styles.marriageMapTouch}
-                //  onPress={() => this.card2.flip()}
+                  onPress={() => this.props.navigation.navigate('MarriageMapView')}
                 >
                  <Image
-                      source={require("../../assets/st_thomas.png")}
+                      source={require("../../assets/st_mary.png")}
                       style={styles.stThomasChurch}
                     />
                     <View style={styles.marriageCardBlueContainer}>
@@ -185,6 +183,7 @@ class LocationScreen extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.marriageContentTouch}
+                  onPress={() => this.props.navigation.navigate('MarriageMapView')}
                 >
                   <ImageBackground
                     source={require("../../assets/wedding.jpg")}
@@ -217,7 +216,6 @@ class LocationScreen extends Component {
               </CardFlip>
             </View>
           </View>
-        </LinearGradient>
       </View>
     );
   }

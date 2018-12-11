@@ -15,15 +15,15 @@ import { bindActionCreators } from "redux";
 import { ActionCreators } from "../actions";
 import styles from "../styles/mapViewStyle";
 const GOOGLE_MAPS_APIKEY = "AIzaSyAu-jIbmN5HxuKoOgjFDS68lWAVfywfYgk";
-class MapViewScreen extends Component {
+class MarriageMapView extends Component {
   constructor(props) {
     super(props);
     this.searchTimeOutId = null;
     this.state = {
       isShowingDirections: false,
       currentRegion: {
-        latitude: 11.8799197,
-        longitude: 75.7677182,
+        latitude: 8.8891845,
+        longitude: 76.682741,
         latitudeDelta: 0.015,
         longitudeDelta: 0.0121,
       },
@@ -82,8 +82,8 @@ class MapViewScreen extends Component {
     this.checkLocationPermission();
     this.setState({
       currentRegion: {
-        latitude: 11.8799197,
-        longitude: 75.7677182,
+        latitude: 8.8891845,
+        longitude: 76.682741,
         latitudeDelta: 0.015,
         longitudeDelta: 0.0121,
       },
@@ -121,7 +121,7 @@ class MapViewScreen extends Component {
         key={"poi"}
         title={"St Thomas Church"}
         image={require("../../assets/church-map-icon-marker.png")}
-        coordinate={{ latitude: 11.8799197, longitude: 75.7677182 }}
+        coordinate={{ latitude: 8.8891845, longitude: 76.682741 }}
         onPress={() => {}}
       />
     );
@@ -135,6 +135,9 @@ class MapViewScreen extends Component {
     return true;
   };
   renderDirections=()=> {
+    console.log("inside render directions");
+    console.log(this.state.currentLatitude);
+    console.log(this.state.currentLongitude);
     if (this.state.currentLatitude !== null) {
       let renderedDirection = [];
       renderedDirection = renderedDirection.concat(
@@ -145,8 +148,8 @@ class MapViewScreen extends Component {
             longitude: this.state.currentLongitude,
           }}
           destination={{
-            latitude: 11.8799197,
-            longitude: 75.7677182,
+            latitude: 8.8891845,
+            longitude: 76.682741,
           }}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
@@ -171,8 +174,8 @@ class MapViewScreen extends Component {
           key={"selected_poi"}
           title={"St Thomas Church"}
           coordinate={{
-            latitude: 11.8799197,
-            longitude: 75.7677182,
+            latitude: 8.8891845,
+            longitude: 76.682741,
           }}
         />
       );
@@ -211,8 +214,8 @@ class MapViewScreen extends Component {
             showsUserLocation={true}
             followsUserLocation={false}
             region={{
-              latitude: 11.8799197,
-              longitude: 75.7677182,
+              latitude: 8.8891845,
+              longitude: 76.682741,
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}
@@ -249,4 +252,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapViewScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MarriageMapView);

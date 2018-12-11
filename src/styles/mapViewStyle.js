@@ -29,16 +29,22 @@ const styles = StyleSheet.create({
     backgroundColor:'rgba(52, 52, 52, 0.8)',
   },
   contentContainer:{
-    marginTop:68,
+    ...StyleSheet.absoluteFillObject,
+    //marginTop:68,
     alignItems:'center',
     justifyContent:'center',
-    borderColor: '#DD0000',borderWidth: 2,
+    //borderColor: '#DD0000',borderWidth: 2,
   },
   toolBarHeading:{
     color:'#fff',
     fontWeight: '400',
     fontSize:responsiveFontSize(2.3),
     padding:responsiveWidth(4)
+  },
+  map:{
+    width: responsiveWidth(100),
+    height: responsiveHeight(100),
+   // marginTop:68
   }
 });
 

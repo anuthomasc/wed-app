@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     //justifyContent: 'center',
     alignItems: "center",
-    marginTop: StatusBar.currentHeight,
+    //marginTop: StatusBar.currentHeight,
     position: "absolute",
   },
   engagementContainer: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: responsiveWidth(100),
-    marginBottom: -responsiveWidth(5),
+    marginTop:responsiveWidth(15),
   },
   engagementContentContainer: {
     justifyContent: "center",
@@ -100,13 +100,13 @@ const styles = StyleSheet.create({
   engMapImage:{
     justifyContent: "center",
     alignItems: "center",
-    width: responsiveWidth(60),
+    width: responsiveWidth(70),
     height: responsiveHeight(35),
   },
   engChurchImage:{
     justifyContent: "center",
     alignItems: "center",
-    width: responsiveWidth(30),
+    width: responsiveWidth(20),
     height: responsiveHeight(20),
   },
   backgroundOverlay: {
@@ -158,6 +158,12 @@ const styles = StyleSheet.create({
     top:responsiveWidth(-5),
     justifyContent: "center",
     alignItems: "center",
+  },
+  backgroundImage:{
+    width: responsiveWidth(100),
+    height: responsiveHeight(100),
+    position: "absolute",
+    flex: 1,
   }
 });
 

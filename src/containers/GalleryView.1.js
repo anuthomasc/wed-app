@@ -9,6 +9,14 @@ import styles from "../styles/galleryStyle";
 let data = [
   {
     uri:
+      "https://s-media-cache-ak0.pinimg.com/736x/32/7f/d9/327fd98ae0146623ca8954884029297b.jpg",
+      onPress:()=>{
+        console.log("gggf");
+        
+      }
+    },
+  {
+    uri:
       "https://s-media-cache-ak0.pinimg.com/736x/b1/21/df/b121df29b41b771d6610dba71834e512.jpg",
   },
   {
@@ -109,11 +117,6 @@ class GalleryView extends Component {
             columns={2} // optional - Default: 2
             bricks={data}
             style={styles.masonryStyle}
-            onPress={(item)=>{
-              console.log("gggf");
-              console.log(item);
-
-            }}
           />
         </View>
         
