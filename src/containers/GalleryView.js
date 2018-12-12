@@ -1,122 +1,170 @@
 import React, { Component } from "react";
-import { View,Text, StatusBar } from "react-native";
-import Masonry from "react-native-masonry";
+import {
+  TouchableOpacity,
+  BackHandler,
+  Image,
+  View,
+  Text,
+  StatusBar,
+} from "react-native";
+import Masonry from "react-native-masonry-layout";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ActionCreators } from "../actions";
+import { responsiveWidth, responsiveHeight } from "../helpers/Responsive";
 import styles from "../styles/galleryStyle";
-
-let data = [
-  {
-    uri:
-      "https://s-media-cache-ak0.pinimg.com/736x/b1/21/df/b121df29b41b771d6610dba71834e512.jpg",
-  },
-  {
-    uri:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQpD8mz-2Wwix8hHbGgR-mCFQVFTF7TF7hU05BxwLVO1PS5j-rZA",
-  },
-  {
-    uri:
-      "https://s-media-cache-ak0.pinimg.com/736x/5a/15/0c/5a150cf9d5a825c8b5871eefbeda8d14.jpg",
-  },
-  {
-    uri:
-      "https://s-media-cache-ak0.pinimg.com/736x/04/63/3f/04633fcc08f9d405064391bd80cb0828.jpg",
-  },
-  {
-    uri:
-      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQRWkuUMpLyu3QnFu5Xsi_7SpbabzRtSis-_QhKas6Oyj3neJoeug",
-  },
-  {
-    uri:
-      "https://s-media-cache-ak0.pinimg.com/736x/a5/c9/43/a5c943e02b1c43b5cf7d5a4b1efdcabb.jpg",
-  },
-  {
-    uri:
-      "https://i0.wp.com/www.youbodyhealth.com/wp-content/uploads/2016/08/Delicious-Foods-can-Harm-Your-Brain.jpg?",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2017-03/29/15/campaign_images/buzzfeed-prod-fastlane-03/26-delicious-korean-foods-you-need-in-your-life-2-30138-1490814365-13_dblbig.jpg",
-  },
-  {
-    uri: "https://pbs.twimg.com/media/B59AOmICQAAiGGj.png",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2013-12/enhanced/webdr05/17/17/enhanced-buzz-orig-2548-1387320822-8.jpg",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2015-03/17/15/enhanced/webdr13/enhanced-6527-1426620797-18.jpg",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2014-12/1/15/enhanced/webdr02/enhanced-18393-1417466529-5.jpg",
-  },
-  {
-    uri:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXXTmdaGSOFK8iBeYqoA6_XiQGGWvu6KGnqAxXYyvJA-JKin8ImQ",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2015-04/3/15/enhanced/webdr06/enhanced-24427-1428089292-2.jpg",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2016-12/28/12/asset/buzzfeed-prod-web-09/sub-buzz-24236-1482944714-1.jpg",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2016-03/7/17/enhanced/webdr08/enhanced-buzz-8155-1457391039-5.jpg",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2017-03/30/12/asset/buzzfeed-prod-fastlane-01/sub-buzz-24597-1490890739-1.jpg",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2016-01/14/20/campaign_images/webdr15/which-delicious-mexican-food-item-are-you-based-o-2-20324-1452822970-1_dblbig.jpg",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2015-11/30/10/enhanced/webdr15/enhanced-18265-1448896942-17.jpg",
-  },
-  {
-    uri:
-      "https://img.buzzfeed.com/buzzfeed-static/static/2015-12/30/16/enhanced/webdr04/enhanced-15965-1451509932-6.jpg",
-  },
-];
 class GalleryView extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+  onBackPress = () => {
+    this.props.navigation.goBack();
+    return true;
+  };
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.refs.masonry.addItems([
+      {
+        key: 1,
+        height: responsiveHeight(
+          50 /
+            (Image.resolveAssetSource(require("../../assets/aj1.jpg")).height /
+              Image.resolveAssetSource(require("../../assets/aj1.jpg")).width)
+        ),
+        image: require("../../assets/aj1.jpg"),
+      },
+      {
+        key: 2,
+        height: responsiveHeight(
+          50 /
+            (Image.resolveAssetSource(require("../../assets/aj2.jpg")).height /
+              Image.resolveAssetSource(require("../../assets/aj2.jpg")).width)
+        ),
+        image: require("../../assets/aj2.jpg"),
+      },
+      {
+        key: 3,
+        height: responsiveHeight(
+          Image.resolveAssetSource(require("../../assets/aj3.jpg")).height /
+            Image.resolveAssetSource(require("../../assets/aj3.jpg")).width -
+            responsiveHeight(100) / responsiveWidth(100)
+        ),
+        image: require("../../assets/aj3.jpg"),
+      },
+      {
+        key: 4,
+        height: responsiveHeight(
+          50 /
+            (Image.resolveAssetSource(require("../../assets/aj4.jpg")).height /
+              Image.resolveAssetSource(require("../../assets/aj4.jpg")).width)
+        ),
+        image: require("../../assets/aj4.jpg"),
+      },
+      {
+        key: 5,
+        height: responsiveHeight(
+          50 /
+            (Image.resolveAssetSource(require("../../assets/aj1.jpg")).height /
+              Image.resolveAssetSource(require("../../assets/aj1.jpg")).width)
+        ),
+        image: require("../../assets/aj1.jpg"),
+      },
+      {
+        key: 6,
+        height: responsiveHeight(
+          50 /
+            (Image.resolveAssetSource(require("../../assets/aj5.jpg")).height /
+              Image.resolveAssetSource(require("../../assets/aj5.jpg")).width)
+        ),
+        image: require("../../assets/aj5.jpg"),
+      },
+      {
+        key: 7,
+        height: responsiveHeight(
+          50 /
+            (Image.resolveAssetSource(require("../../assets/bg.jpg")).height /
+              Image.resolveAssetSource(require("../../assets/bg.jpg")).width)
+        ),
+        image: require("../../assets/bg.jpg"),
+      },
+      {
+        key: 8,
+        height: responsiveHeight(
+          50 /
+            (Image.resolveAssetSource(require("../../assets/theme1.jpg"))
+              .height /
+              Image.resolveAssetSource(require("../../assets/theme1.jpg"))
+                .width)
+        ),
+        image: require("../../assets/theme1.jpg"),
+      },
+    ]);
+  }
+
+  getHeight(imageHeight, imageWidth) {
+    imageRatio = imageHeight / imageWidth;
+    availableRatio = responsiveHeight(100);
+    return a;
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <StatusBar
-         // translucent={true}
-          backgroundColor={"transparent"}
+          // translucent={true}
+          backgroundColor={"rgba(52, 52, 52, 0.8)"}
           barStyle={"light-content"}
         />
         <View style={styles.toolbar}>
+          <TouchableOpacity
+            style={styles.backIconContainer}
+            onPress={() => {
+              this.onBackPress();
+            }}
+          >
+            <Image
+              source={require("../../assets/back_icon.png")}
+              style={styles.backIcon}
+            />
+          </TouchableOpacity>
+
           <Text style={styles.toolBarHeading}>Gallery</Text>
         </View>
         <View style={styles.contentContainer}>
-        <Masonry
-            sorted // optional - Default: false
+          <Masonry
+            ref="masonry"
             columns={2} // optional - Default: 2
-            bricks={data}
-            style={styles.masonryStyle}
-            onPress={(item)=>{
-              console.log("gggf");
-              console.log(item);
-
+            containerStyle={{
+              flex: 1,
+              width: responsiveWidth(100),
+              //height: responsiveHeight(100),
             }}
+            renderItem={item => (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  //  borderColor: "#DD0000", borderWidth: 2,
+                }}
+              >
+                <Image
+                  source={item.image}
+                  style={{
+                    width: responsiveWidth(49),
+                    height: item.height,
+                    resizeMode: "cover",
+                    margin: 1,
+                  }}
+                />
+              </View>
+            )}
           />
         </View>
-        
       </View>
     );
   }

@@ -5,11 +5,10 @@ import {
   Image,
   View,
   Text,
-  TouchableWithoutFeedback,
   StatusBar,
+  BackHandler
 } from "react-native";
 import CardFlip from "react-native-card-flip";
-import LinearGradient from "react-native-linear-gradient";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -27,195 +26,162 @@ class LocationScreen extends Component {
     this.flip2;
     this.state = {};
   }
-    componentDidMount() {
-      this.flip1=setInterval(()=>{
-        this.card1.flip();
-      },2000)
-      setTimeout(()=>{
-        this.flip2=setInterval(()=>{
-          this.card2.flip();
-        },2000)
-      },1000)
-      
-    }
-    componentWillUnmount() {
-      clearInterval(this.flip1);
-      clearInterval(this.flip2);
-    }
+  onBackPress = () => {
+    this.props.navigation.goBack();
+    return true;
+  };
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.flip1 = setInterval(() => {
+      this.card1.flip();
+    }, 2000);
+    setTimeout(() => {
+      this.flip2 = setInterval(() => {
+        this.card2.flip();
+      }, 2000);
+    }, 1000);
+  }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    clearInterval(this.flip1);
+    clearInterval(this.flip2);
+  }
+
   
   render() {
     return (
       <View style={styles.container}>
-          <View style={styles.contentContainer}>
+        <View style={styles.contentContainer}>
           <Image
             source={require("../../assets/theme1.jpg")}
             style={styles.backgroundImage}
           />
-           <StatusBar
+          <TouchableOpacity
+            style={styles.backIconContainer}
+            onPress={() => {
+              this.onBackPress();
+            }}>
+             <Icon name={"chevron-left"} size={24} color="#000" />
+          </TouchableOpacity>
+          <StatusBar
             // translucent={true}
-            backgroundColor={'rgba(0,0,0,0.4)'}
+            backgroundColor={"rgba(0,0,0,0.4)"}
             barStyle={"light-content"}
           />
-            <View style={styles.engagementContainer}>
-              <CardFlip
-                style={styles.engagementContentContainer}
-                ref={card1 => (this.card1 = card1)}
-                flipDirection={"y"}
+          <View style={styles.engagementContainer}>
+            <CardFlip
+              style={styles.engagementContentContainer}
+              ref={card1 => (this.card1 = card1)}
+              flipDirection={"y"}
+            >
+              <TouchableOpacity
+                style={styles.engagementContentTouch}
+                onPress={() => {
+                  this.props.navigation.navigate("MapView");
+                }}
               >
-                <TouchableOpacity
-                  style={styles.engagementContentTouch}
-                  onPress={() =>{
-                    this.props.navigation.navigate('MapView');
-                  }}
+                <ImageBackground
+                  source={require("../../assets/st_thomas.png")}
+                  style={styles.engagementContentBackgroundImage}
                 >
-                  <ImageBackground
-                    source={require("../../assets/st_thomas.png")}
-                    style={styles.engagementContentBackgroundImage}
-                  >
-                    <Image
-                      source={require("../../assets/background.png")}
-                      style={styles.backgroundOverlay}
-                    />
-                    <View style={styles.textContainer}>
-                      <View style={styles.textInnerContainer}>
-                        <Icon name={"calendar"} size={24} color="#fff" />
-                        <Text style={styles.textStyle}>
-                          Sunday 30th December 2018
-                        </Text>
-                      </View>
-                      <View style={styles.textInnerContainer}>
-                        <Icon name={"thumb-tack"} size={24} color="#fff" />
-                        <Text style={styles.textStyle}>
-                          St.Thomas Church , Kolakkad
-                        </Text>
-                      </View>
-                      <View style={styles.textInnerContainer}>
-                        <Icon name={"clock-o"} size={24} color="#fff" />
-                        <Text style={styles.textStyle}>5.00 pm </Text>
-                      </View>
+                  <Image
+                    source={require("../../assets/background.png")}
+                    style={styles.backgroundOverlay}
+                  />
+                  <View style={styles.textContainer}>
+                    <View style={styles.textInnerContainer}>
+                      <Icon name={"calendar"} size={24} color="#fff" />
+                      <Text style={styles.textStyle}>
+                        Sunday 30th December 2018
+                      </Text>
                     </View>
-                  </ImageBackground>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.engagementMapTouch}
-                 onPress={() =>this.props.navigation.navigate('MapView')}
-                >
-                  <View style={{ flexDirection: "row" }}>
-                    <View>
-                      <Image
-                        source={require("../../assets/church01.png")}
-                        style={styles.engChurchImage}
-                      />
-                      <TouchableWithoutFeedback
-                        onPress={() => {
-                         
-                        }}
-                      >
-                        <View
-                          style={{
-                            borderRadius: 5,
-                            borderColor: "#fff",
-                            borderWidth: 0.7,
-                            padding: responsiveHeight(1),
-                            position: "absolute",
-                          //  right: responsiveHeight(4),
-                            flexDirection: "row",
-                            bottom: responsiveHeight(4),
-                            backgroundColor:'#dd0000'
-                          }}
-                        >
-                          <Image
-                            style={{
-                              height: responsiveHeight(2),
-                              width: responsiveHeight(2),
-                              resizeMode: "cover",
-                            }}
-                            source={require("../../assets/right_arrow.png")}
-                          />
-                          <Text
-                            style={{
-                              fontFamily: "",
-                              fontSize: responsiveFontSize(1.3),
-                              color: "#fff",
-                              paddingLeft: responsiveWidth(2),
-                            }}>
-                            Directions
-                          </Text>
-                        </View>
-                      </TouchableWithoutFeedback>
+                    <View style={styles.textInnerContainer}>
+                      <Icon name={"thumb-tack"} size={24} color="#fff" />
+                      <Text style={styles.textStyle}>
+                        St.Thomas Church , Kolakkad
+                      </Text>
                     </View>
-
-                    <Image
-                      source={require("../../assets/map1.png")}
-                      style={styles.engMapImage}
-                    />
+                    <View style={styles.textInnerContainer}>
+                      <Icon name={"clock-o"} size={24} color="#fff" />
+                      <Text style={styles.textStyle}>5.00 pm </Text>
+                    </View>
                   </View>
-                </TouchableOpacity>
-              </CardFlip>
-            </View>
-            <View style={styles.marriageContainer}>
-              <CardFlip
-                style={styles.marriageContentContainer}
-                ref={card2 => (this.card2 = card2)}
-                flipDirection={"y"}
+                </ImageBackground>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.engagementMapTouch}
+                onPress={() => this.props.navigation.navigate("MapView")}
               >
-                
-                <TouchableOpacity
-                  style={styles.marriageMapTouch}
-                  onPress={() => this.props.navigation.navigate('MarriageMapView')}
-                >
-                 <Image
-                      source={require("../../assets/st_mary.png")}
-                      style={styles.stThomasChurch}
-                    />
-                    <View style={styles.marriageCardBlueContainer}>
-
-                    <Text style={styles.textStyle}>St. Mary's Church Kannanallor</Text>
-                    <View style={styles.directionContainer}>
-
+                <Image
+                  source={require("../../assets/map1.png")}
+                  style={styles.engMapImage}
+                />
+              </TouchableOpacity>
+            </CardFlip>
+          </View>
+          <View style={styles.marriageContainer}>
+            <CardFlip
+              style={styles.marriageContentContainer}
+              ref={card2 => (this.card2 = card2)}
+              flipDirection={"y"}
+            >
+              <TouchableOpacity
+                style={styles.marriageMapTouch}
+                onPress={() =>
+                  this.props.navigation.navigate("MarriageMapView")}
+              >
+                <Image
+                  source={require("../../assets/st_mary.png")}
+                  style={styles.stThomasChurch}
+                />
+                <View style={styles.marriageCardBlueContainer}>
+                  <Text style={styles.textStyle}>
+                    St. Mary's Church Kannanallor
+                  </Text>
+                  <View style={styles.directionContainer}>
                     <Image
                       source={require("../../assets/right.png")}
                       style={styles.iconImage}
                     />
-                    </View>
-                    </View>
-                    
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.marriageContentTouch}
-                  onPress={() => this.props.navigation.navigate('MarriageMapView')}
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.marriageContentTouch}
+                onPress={() =>
+                  this.props.navigation.navigate("MarriageMapView")}
+              >
+                <ImageBackground
+                  source={require("../../assets/wedding.jpg")}
+                  style={styles.engagementContentBackgroundImage}
                 >
-                  <ImageBackground
-                    source={require("../../assets/wedding.jpg")}
-                    style={styles.engagementContentBackgroundImage}
-                  >
-                    <Image
-                      source={require("../../assets/background.png")}
-                      style={styles.backgroundOverlay}
-                    />
-                    <View style={styles.textContainer}>
-                      <View style={styles.textInnerContainer}>
-                        <Icon name={"calendar"} size={24} color="#fff" />
-                        <Text style={styles.textStyle}>
-                          Saturday 5th January 2019
-                        </Text>
-                      </View>
-                      <View style={styles.textInnerContainer}>
-                        <Icon name={"thumb-tack"} size={24} color="#fff" />
-                        <Text style={styles.textStyle}>
-                          St.Mary's Church Kannanalloor, Kollam
-                        </Text>
-                      </View>
-                      <View style={styles.textInnerContainer}>
-                        <Icon name={"clock-o"} size={24} color="#fff" />
-                        <Text style={styles.textStyle}>11.00 am </Text>
-                      </View>
+                  <Image
+                    source={require("../../assets/background.png")}
+                    style={styles.backgroundOverlay}
+                  />
+                  <View style={styles.textContainer}>
+                    <View style={styles.textInnerContainer}>
+                      <Icon name={"calendar"} size={24} color="#fff" />
+                      <Text style={styles.textStyle}>
+                        Saturday 5th January 2019
+                      </Text>
                     </View>
-                  </ImageBackground>
-                </TouchableOpacity>
-              </CardFlip>
-            </View>
+                    <View style={styles.textInnerContainer}>
+                      <Icon name={"thumb-tack"} size={24} color="#fff" />
+                      <Text style={styles.textStyle}>
+                        St.Mary's Church Kannanalloor, Kollam
+                      </Text>
+                    </View>
+                    <View style={styles.textInnerContainer}>
+                      <Icon name={"clock-o"} size={24} color="#fff" />
+                      <Text style={styles.textStyle}>11.00 am </Text>
+                    </View>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
+            </CardFlip>
           </View>
+        </View>
       </View>
     );
   }

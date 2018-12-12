@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
     color: "#6E6E73",
     fontWeight: "600",
     fontSize: responsiveFontSize(5),
-    fontFamily:'Catamaran-Light'
+    //fontFamily:'Catamaran-Light'
   },
   counterText: {
     color: "#6E6E73",
     fontWeight: "400",
     fontSize: responsiveFontSize(3),
-    fontFamily: 'Catamaran-Regular',
+   // fontFamily: 'Catamaran-Regular',
   },
 });
 

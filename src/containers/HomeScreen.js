@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, StatusBar, Image } from "react-native";
+import {BackHandler, ScrollView, Text, View, StatusBar, Image } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import LinearGradient from "react-native-linear-gradient";
 import { connect } from "react-redux";
@@ -56,7 +56,10 @@ class HomeScreen extends Component {
       date: new Date(),
     };
   }
-
+  onBackPress = () => {
+    BackHandler.exitApp();
+    return true;
+};
   calcDate(date) {
     var diff = Math.floor(1546666200000 - date.getTime());
     var day = 1000 * 60 * 60 * 24;
@@ -85,10 +88,12 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
     this.timerID = setInterval(() => this.calcDate(new Date()), 1000);
    // setInterval(() => this.floatingAction.animateButton(), 4000);
   }
   componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
     clearInterval(this.timerID);
   }
   tick() {

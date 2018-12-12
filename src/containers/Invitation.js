@@ -1,25 +1,47 @@
 import React, { Component } from "react";
-import { View,Text, StatusBar,Image } from "react-native";
+import {TouchableOpacity, BackHandler, View, Text, Image, ImageBackground } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ActionCreators } from "../actions";
 import styles from "../styles/invitationStyle";
-
-
+import Icon from "react-native-vector-icons/FontAwesome";
 class Invitation extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+  onBackPress = () => {
+    this.props.navigation.goBack();
+    return true;
+  };
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Image
-            source={require("../../assets/save.jpg")}
-            style={styles.backgroundImage}
-          />
         <View style={styles.contentContainer}>
-          <Text>ghhhhh</Text>
+           <Image
+          source={require("../../assets/save.jpg")}
+          style={styles.backgroundImage}
+        />
+          <TouchableOpacity
+            style={styles.backIconContainer}
+            onPress={() => {
+              this.onBackPress();
+            }}>
+             <Icon name={"chevron-left"} size={24} color="#000" />
+            {/* <Image
+              source={require("../../assets/back_icon.png")}
+              style={styles.backIcon}
+            /> */}
+          </TouchableOpacity>
+          
+            <Text>ghhhhh</Text>
         </View>
       </View>
     );

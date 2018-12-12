@@ -56,7 +56,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: responsiveWidth(90),
     height: responsiveHeight(35),
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
+    flexDirection: "row",
+   //borderColor: "#DD0000", borderWidth: 2,
   },
   marriageContainer: {
     flex: 1,
@@ -100,8 +102,9 @@ const styles = StyleSheet.create({
   engMapImage:{
     justifyContent: "center",
     alignItems: "center",
-    width: responsiveWidth(70),
+    width: responsiveWidth(90),
     height: responsiveHeight(35),
+   // borderColor: "#DD0000", borderWidth: 2,
   },
   engChurchImage:{
     justifyContent: "center",
@@ -164,7 +167,18 @@ const styles = StyleSheet.create({
     height: responsiveHeight(100),
     position: "absolute",
     flex: 1,
-  }
+  },
+  backIconContainer:{
+    //borderColor: '#DD0000',borderWidth: 2,
+    alignItems:'center',
+    marginTop: Platform.OS === 'ios' ? 50 : StatusBar.currentHeight+20,
+     justifyContent:'center',
+     position:'absolute',
+     left:responsiveWidth(5),
+     top:responsiveWidth(0)
+     
+  },
+
 });
 
 export default styles;
