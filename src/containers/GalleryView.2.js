@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import {
   TouchableOpacity,
+  TouchableHighlight,
   BackHandler,
   Image,
   View,
   Text,
   StatusBar,
   FlatList,
+  Platform,
   TouchableWithoutFeedback,
 } from "react-native";
+import Gallery from "react-native-image-gallery";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ActionCreators } from "../actions";
@@ -106,7 +109,6 @@ class GalleryView extends Component {
     this.state = {
       selectedIndex: 0,
       showGalleryView: false,
-      selectedImage: null,
     };
   }
   onBackPress = () => {
@@ -165,16 +167,12 @@ class GalleryView extends Component {
             }}
             removeClippedSubviews={true}
             renderItem={({ item, index }) => {
-              //console.log(item)
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    console.log(item);
-                    console.log("ggdsae");
                     this.setState({
                       selectedIndex: index,
                       showGalleryView: true,
-                      selectedImage: item.source,
                     });
                   }}
                 >
@@ -200,43 +198,69 @@ class GalleryView extends Component {
           />
         </View>
         {this.state.showGalleryView ? (
-          <View style={styles.contentContainer2}>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                this.setState({
-                  showGalleryView: false,
-                });
-              }}
-            >
-              <View
-                style={{
-                  //position: "absolute",
-                  width: responsiveWidth(90),
-                  height:responsiveWidth(10),
-                  //left: responsiveWidth(5),
-                  marginBottom: responsiveWidth(10),
-                }}
-              >
-                <Image
+          <Gallery
+            style={{
+              // borderColor: '#DD0000',borderWidth: 2,
+            }}
+            images={imagesArray}
+            initialPage={this.state.selectedIndex}
+            imageComponent={item => {
+              return (
+                <View
                   style={{
-                    width: responsiveWidth(6),
-                    height: responsiveWidth(6),
-                    position: "absolute",
-                    right: responsiveWidth(5)
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flex: 1,
+                    borderColor: "#DD0000", borderWidth: 2,
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    // position:'absolute',
+                    //zIndex:999,
+                    // height:responsiveHeight(100)
                   }}
-                  source={require("../../assets/close_image_icon.png")}
-                />
-              </View>
-            </TouchableWithoutFeedback>
-            <Image
-              style={{
-                width: responsiveWidth(90),
-               height: responsiveHeight(55),
-               
-              }}
-              source={this.state.selectedImage}
-            />
-          </View>
+                >
+                  <TouchableHighlight
+                    style={{
+                      alignItems: "center",
+                      marginTop:
+                      Platform.OS === "ios" ? 30 : StatusBar.currentHeight,
+                      justifyContent: "center",
+                      //position: "absolute",
+                      //right: responsiveWidth(10),
+                      //top: responsiveWidth(20),
+                      borderColor: "#DD0000", borderWidth: 2,
+                    }}
+                    onPress={() => {
+                      alert("....")
+                      console.log("fffa");
+                      console.log("fffa");
+                      console.log("fffa");
+                      console.log("fffa");
+                      this.setState({
+                        showGalleryView: false,
+                      });
+                    }}
+                  >
+                    <Image
+                      source={require("../../assets/back_icon.png")}
+                      style={{
+                        width: responsiveWidth(3),
+                        height: responsiveWidth(5),
+                        //borderColor: '#DD0000',borderWidth: 2,
+                      }}
+                    />
+                  </TouchableHighlight>
+                  <Image
+                    source={item.image.source}
+                    style={{
+                      width: responsiveWidth(100),
+                      height: responsiveHeight(50),
+                      // borderColor: "#DD0000",borderWidth: 2,
+                    }}
+                  />
+                </View>
+              );
+            }}
+          />
         ) : null}
       </View>
     );

@@ -26,7 +26,7 @@ class Invitation extends Component {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
            <Image
-          source={require("../../assets/save.jpg")}
+          source={require("../../assets/save.png")}
           style={styles.backgroundImage}
         />
           <TouchableOpacity
@@ -40,8 +40,6 @@ class Invitation extends Component {
               style={styles.backIcon}
             /> */}
           </TouchableOpacity>
-          
-            <Text>ghhhhh</Text>
         </View>
       </View>
     );

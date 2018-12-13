@@ -18,7 +18,7 @@ const actions = [
   {
     color: "transparent",
     text: "Location",
-    icon: require("../../assets/location.png"),
+    icon: require("../../assets/pink_location.png"),
     name: "location",
     position: 1,
     textBackground: "transparent",
@@ -28,7 +28,7 @@ const actions = [
   },
   {
     text: "Invitation",
-    icon: require("../../assets/invi.png"),
+    icon: require("../../assets/pink_invitation.png"),
     name: "invitation",
     position: 2,
     textBackground: "transparent",
@@ -39,7 +39,7 @@ const actions = [
   },
   {
     text: "Gallery",
-    icon: require("../../assets/gall.png"),
+    icon: require("../../assets/pink_camera.png"),
     name: "gallery",
     position: 3,
     textBackground: "transparent",
@@ -229,13 +229,13 @@ class HomeScreen extends Component {
             }}
             onPressMain={() => {
               if (this.state.fadeBG) {
-                this.setState({
-                  fadeBG: false,
-                });
+                // this.setState({
+                //   fadeBG: false,
+                // });
               } else {
-                this.setState({
-                  fadeBG: true,
-                });
+                // this.setState({
+                //   fadeBG: true,
+                // });
               }
             }}
             floatingIcon={require("../../assets/ring.png")}
