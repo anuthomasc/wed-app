@@ -1,22 +1,29 @@
 import React, { Component } from "react";
-import {BackHandler, ScrollView, Text, View, StatusBar, Image } from "react-native";
+import {
+  BackHandler,
+  ScrollView,
+  Text,
+  View,
+  StatusBar,
+  Image,
+} from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import LinearGradient from "react-native-linear-gradient";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ActionCreators } from "../actions/index";
-import styles from "../styles/homeStyle";
 import { responsiveWidth } from "../helpers/Responsive";
+import styles from "../styles/homeStyle";
 const actions = [
   {
-    color:'transparent',
+    color: "transparent",
     text: "Location",
     icon: require("../../assets/location.png"),
     name: "location",
     position: 1,
-    textBackground:'transparent',
-    textElevation:0,
-    margin:responsiveWidth(35),
+    textBackground: "transparent",
+    textElevation: 0,
+    margin: responsiveWidth(35),
     //size: 100
   },
   {
@@ -24,24 +31,22 @@ const actions = [
     icon: require("../../assets/invi.png"),
     name: "invitation",
     position: 2,
-    textBackground:'transparent',
-    textElevation:0,
-    margin:responsiveWidth(27),
-    color:'transparent',
+    textBackground: "transparent",
+    textElevation: 0,
+    margin: responsiveWidth(27),
+    color: "transparent",
     //size:100
-    
   },
   {
     text: "Gallery",
     icon: require("../../assets/gall.png"),
     name: "gallery",
     position: 3,
-    textBackground:'transparent',
-    textElevation:0,
-    margin:responsiveWidth(15),
-    color:'transparent',
+    textBackground: "transparent",
+    textElevation: 0,
+    margin: responsiveWidth(15),
+    color: "transparent",
     //size:100
-    
   },
 ];
 class HomeScreen extends Component {
@@ -54,12 +59,13 @@ class HomeScreen extends Component {
       minutes: 0,
       seconds: 0,
       date: new Date(),
+      fadeBG: false,
     };
   }
   onBackPress = () => {
     BackHandler.exitApp();
     return true;
-};
+  };
   calcDate(date) {
     var diff = Math.floor(1546666200000 - date.getTime());
     var day = 1000 * 60 * 60 * 24;
@@ -90,7 +96,7 @@ class HomeScreen extends Component {
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
     this.timerID = setInterval(() => this.calcDate(new Date()), 1000);
-   // setInterval(() => this.floatingAction.animateButton(), 4000);
+    // setInterval(() => this.floatingAction.animateButton(), 4000);
   }
   componentWillUnmount() {
     BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
@@ -111,10 +117,27 @@ class HomeScreen extends Component {
             // colors={["#800080", "#ffc0cb"]}
             style={styles.linearGradient}
           > */}
-          <Image
-            source={require("../../assets/bg.jpg")}
-            style={styles.backgroundImage}
-          />
+          {this.state.fadeBG ? (
+            <View
+              style={{
+                width: responsiveWidth(100),
+              }}
+            >
+              <Image
+                source={require("../../assets/bg.jpg")}
+                style={styles.backgroundImage}
+              />
+              <Image
+                source={require("../../assets/background.png")}
+                style={styles.backgroundImage2}
+              />
+            </View>
+          ) : (
+            <Image
+              source={require("../../assets/bg.jpg")}
+              style={styles.backgroundImage}
+            />
+          )}
           {/* <Image
             source={require("../../assets/background.png")}
             style={styles.backgroundImage}
@@ -126,7 +149,6 @@ class HomeScreen extends Component {
           />
           <ScrollView>
             <View style={styles.countDownContainer}>
-              <Text />
               <View style={styles.circleContainer}>
                 <View style={styles.innerCircleContainer}>
                   <View style={styles.circle}>
@@ -187,27 +209,42 @@ class HomeScreen extends Component {
                 </View>
               </View>
             </View>
-            
           </ScrollView>
           <FloatingAction
-          ref={(ref) => { this.floatingAction = ref; }}
-                actions={actions}
-                onPressItem={name => {
-                   if(name=='gallery'){
-                    this.props.navigation.navigate('Gallery');
-                   }else if(name=='location'){
-                    this.props.navigation.navigate('Location');
-                   }else if(name=='invitation'){
-                    this.props.navigation.navigate('Invitation');
-                  }
-                }}
-                floatingIcon={require('../../assets/ring.png')}
-                color={'#bb33ff'}
-                iconWidth={responsiveWidth(15)}
-                iconHeight={responsiveWidth(15)}
-                showBackground={false}
-                position='left'
-              />
+            ref={ref => {
+              this.floatingAction = ref;
+            }}
+            actions={actions}
+            onPressItem={name => {
+              this.setState({
+                fadeBG: false,
+              });
+              if (name == "gallery") {
+                this.props.navigation.navigate("Gallery");
+              } else if (name == "location") {
+                this.props.navigation.navigate("Location");
+              } else if (name == "invitation") {
+                this.props.navigation.navigate("Invitation");
+              }
+            }}
+            onPressMain={() => {
+              if (this.state.fadeBG) {
+                this.setState({
+                  fadeBG: false,
+                });
+              } else {
+                this.setState({
+                  fadeBG: true,
+                });
+              }
+            }}
+            floatingIcon={require("../../assets/ring.png")}
+            color={"#bb33ff"}
+            iconWidth={responsiveWidth(15)}
+            iconHeight={responsiveWidth(15)}
+            showBackground={false}
+            position="left"
+          />
           {/* </LinearGradient> */}
         </View>
       </View>

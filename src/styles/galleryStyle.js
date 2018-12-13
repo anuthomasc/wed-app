@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    //zIndex: 1,
+    zIndex: 1,
     flexDirection: 'row',
     marginTop: Platform.OS === 'ios' ? 30 : StatusBar.currentHeight,
     alignItems: 'center',
@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
     //borderColor: '#DD0000',borderWidth: 2,
   },
   contentContainer:{
-    //...StyleSheet.absoluteFillObject,
-    marginTop:50+StatusBar.currentHeight,
-  //   alignItems:'center',
-   // justifyContent:'center'
+    ...StyleSheet.absoluteFillObject,
+    //marginTop:68,
+    alignItems:'center',
+    justifyContent:'center',
   },
   toolBarHeading:{
     color:'#fff',

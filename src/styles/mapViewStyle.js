@@ -7,22 +7,23 @@ import {
 const styles = StyleSheet.create({
   
   container: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   toolbar:{
-    justifyContent: "center",
-    alignItems: "center",
-   // borderColor: '#DD0000',borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //borderColor: '#DD0000',borderWidth: 2,
     width: '100%',
-    height: 68,
+    height: 50,
     position: 'absolute',
     top: 0,
     left: 0,
     zIndex: 1,
     flexDirection: 'row',
-    paddingTop: Platform.OS === 'ios' ? 30 : StatusBar.currentHeight,
+    marginTop: Platform.OS === 'ios' ? 30 : StatusBar.currentHeight,
     alignItems: 'center',
     paddingLeft: 22.7,
     paddingRight: 22.7,
@@ -39,13 +40,26 @@ const styles = StyleSheet.create({
     color:'#fff',
     fontWeight: '400',
     fontSize:responsiveFontSize(2.3),
-    padding:responsiveWidth(4)
+    padding:responsiveWidth(5)
   },
   map:{
     width: responsiveWidth(100),
     height: responsiveHeight(100),
    // marginTop:68
-  }
+  },
+  backIcon:{
+    width:responsiveWidth(3),
+    height:responsiveWidth(5),
+  },
+  backIconContainer:{
+    alignItems:'center',
+    marginTop: Platform.OS === 'ios' ? 30 : StatusBar.currentHeight,
+     justifyContent:'center',
+     position:'absolute',
+     left:responsiveWidth(5),
+     //borderColor: '#DD0000',borderWidth: 2,
+     
+  },
 });
 
 export default styles;

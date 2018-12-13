@@ -6,6 +6,8 @@ import {
   BackHandler,
   Text,
   StatusBar,
+  TouchableOpacity,
+  Image
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { Marker } from "react-native-maps";
@@ -36,18 +38,30 @@ class MapViewScreen extends Component {
       distance: "",
     };
   }
+  onBackPress = () => {
+    this.props.navigation.goBack();
+    if (this.state.isShowingDirections) {
+      this.setState({ isShowingDirections: false });
+    } else {
+    }
+    return true;
+  };
   checkLocationPermission() {
-    if (Platform.OS === "android") {
+    if (Platform.OS == "android") {
       PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       ).then(hasLocationPermission => {
         if (hasLocationPermission) {
+          console.log("has permission");
           return true;
         } else {
+          console.log("no permission");
           this.requestLocationPermission().then(locationPermission => {
             if (locationPermission) {
+              console.log("loca permsn")
               return true;
             } else {
+              console.log("fal permsn")
               return false;
             }
           });
@@ -65,7 +79,7 @@ class MapViewScreen extends Component {
         {
           title: "Location Access",
           message:
-            "Need to access your location to function properly. Please click allow in the next prompt",
+            "Need to access your location to function properly. Please click allow",
         }
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -88,9 +102,8 @@ class MapViewScreen extends Component {
         longitudeDelta: 0.0121,
       },
     });
-    this.watchId = navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.getCurrentPosition(
       position => {
-        console.log("locationnn");
         this.setState({
           currentLatitude: position.coords.latitude,
           currentLongitude: position.coords.longitude,
@@ -112,7 +125,7 @@ class MapViewScreen extends Component {
 
   componentWillUnmount() {
     BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
-    navigator.geolocation.clearWatch(this.watchId);
+  //  navigator.geolocation.clearWatch(this.watchId);
   }
   renderMarkers = () => {
     this.setState({ isShowingDirections: true });
@@ -126,14 +139,7 @@ class MapViewScreen extends Component {
       />
     );
   };
-  onBackPress = () => {
-    this.props.navigation.goBack();
-    if (this.state.isShowingDirections) {
-      this.setState({ isShowingDirections: false });
-    } else {
-    }
-    return true;
-  };
+  
   renderDirections=()=> {
     if (this.state.currentLatitude !== null) {
       let renderedDirection = [];
@@ -195,13 +201,26 @@ class MapViewScreen extends Component {
       <View style={styles.container}>
         <StatusBar
           // translucent={true}
-          backgroundColor={'rgba(0,0,0,0.4)'}
+          backgroundColor={'rgba(52, 52, 52, 0.8)'}
           barStyle={"light-content"}
         />
-        {/* <View style={styles.toolbar}>
-          <Text style={styles.toolBarHeading}>aa</Text>
-        </View> */}
+        <View style={styles.toolbar}>
+          <TouchableOpacity
+            style={styles.backIconContainer}
+            onPress={() => {
+              this.onBackPress();
+            }}
+          >
+            <Image
+              source={require("../../assets/back_icon.png")}
+              style={styles.backIcon}
+            />
+          </TouchableOpacity>
+
+          <Text style={styles.toolBarHeading}>Gallery</Text>
+        </View>
         <View style={styles.contentContainer}>
+
           <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
             style={styles.map}

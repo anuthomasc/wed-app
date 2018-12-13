@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   countDownContainer: {
-    width: responsiveWidth(80),
+    // /width: responsiveWidth(95),
     height: responsiveHeight(27),
     marginTop: responsiveWidth(42),
     // borderColor: '#fff',borderWidth: 2,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     margin: responsiveWidth(2),
   },
   innerCircleContainer: {
-    //borderColor: '#DD0000',borderWidth: 2,
+   // borderColor: '#DD0000',borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -69,6 +69,15 @@ const styles = StyleSheet.create({
     height: responsiveHeight(100),
     position: "absolute",
     flex: 1,
+    
+   // opacity:0.6
+  },
+  backgroundImage2: {
+    width: responsiveWidth(100),
+    height: responsiveHeight(100),
+    position: "absolute",
+    flex: 1,
+    position:'absolute'
     
    // opacity:0.6
   },
@@ -81,7 +90,7 @@ const styles = StyleSheet.create({
   counterText: {
     color: "#6E6E73",
     fontWeight: "400",
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2),
    // fontFamily: 'Catamaran-Regular',
   },
 });

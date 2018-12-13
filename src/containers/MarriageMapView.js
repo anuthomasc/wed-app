@@ -6,6 +6,8 @@ import {
   BackHandler,
   Text,
   StatusBar,
+  TouchableOpacity,
+  Image
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { Marker } from "react-native-maps";
@@ -196,15 +198,27 @@ class MarriageMapView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar
-          // translucent={true}
-          backgroundColor={'rgba(0,0,0,0.4)'}
-          barStyle={"light-content"}
-        />
-        {/* <View style={styles.toolbar}>
-          <Text style={styles.toolBarHeading}>aa</Text>
-        </View> */}
-        <View style={styles.contentContainer}>
+      <StatusBar
+        // translucent={true}
+        backgroundColor={'rgba(52, 52, 52, 0.8)'}
+        barStyle={"light-content"}
+      />
+      <View style={styles.toolbar}>
+        <TouchableOpacity
+          style={styles.backIconContainer}
+          onPress={() => {
+            this.onBackPress();
+          }}
+        >
+          <Image
+            source={require("../../assets/back_icon.png")}
+            style={styles.backIcon}
+          />
+        </TouchableOpacity>
+
+        <Text style={styles.toolBarHeading}>Gallery</Text>
+      </View>
+      <View style={styles.contentContainer}>
           <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
             style={styles.map}
