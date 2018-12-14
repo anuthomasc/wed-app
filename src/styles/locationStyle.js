@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginLeft: responsiveWidth(3),
     fontWeight: '400',
-    fontSize:responsiveFontSize(2.3)
+    fontSize:responsiveFontSize(2)
   },
   bg:{
     flex: 1,

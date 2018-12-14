@@ -7,9 +7,10 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import getDirections from 'react-native-google-maps-directions'
 import { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { connect } from "react-redux";
@@ -17,12 +18,12 @@ import { bindActionCreators } from "redux";
 import { ActionCreators } from "../actions";
 import styles from "../styles/mapViewStyle";
 const GOOGLE_MAPS_APIKEY = "AIzaSyAu-jIbmN5HxuKoOgjFDS68lWAVfywfYgk";
-class MarriageMapView extends Component {
+class MapViewScreen extends Component {
   constructor(props) {
     super(props);
     this.searchTimeOutId = null;
     this.state = {
-      isShowingDirections: false,
+      isShowingDirections: true,
       currentRegion: {
         latitude: 8.8891845,
         longitude: 76.682741,
@@ -38,8 +39,16 @@ class MarriageMapView extends Component {
       distance: "",
     };
   }
+  onBackPress = () => {
+    this.props.navigation.goBack();
+    if (this.state.isShowingDirections) {
+      this.setState({ isShowingDirections: false });
+    } else {
+    }
+    return true;
+  };
   checkLocationPermission() {
-    if (Platform.OS === "android") {
+    if (Platform.OS == "android") {
       PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       ).then(hasLocationPermission => {
@@ -67,7 +76,7 @@ class MarriageMapView extends Component {
         {
           title: "Location Access",
           message:
-            "Need to access your location to function properly. Please click allow in the next prompt",
+            "Need to access your location to function properly. Please click allow",
         }
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -79,9 +88,54 @@ class MarriageMapView extends Component {
       return false;
     }
   }
+  async requestPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: "Cool Photo App Camera Permission",
+          message:
+            "Cool Photo App needs access to your camera " +
+            "so you can take awesome pictures.",
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            console.log(position);
+            console.log("location kitti");
+            this.setState(
+              {
+                currentLatitude: position.coords.latitude,
+                currentLongitude: position.coords.longitude,
+                locationError: null,
+              },
+              () => {
+                this.renderDirections();
+              }
+            );
+          },
+          error => {
+            console.log(error);
+            this.setState({ locationError: error.message });
+          },
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
+        );
+      } else {
+        console.log("location permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+  componentWillMount() {
+    this.requestPermission();
+  }
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
-    this.checkLocationPermission();
+    //const a= await this.requestPermission();
+
+    // this.checkLocationPermission();
     this.setState({
       currentRegion: {
         latitude: 8.8891845,
@@ -90,25 +144,25 @@ class MarriageMapView extends Component {
         longitudeDelta: 0.0121,
       },
     });
-    this.watchId = navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.getCurrentPosition(
       position => {
-        console.log("locationnn");
-        this.setState({
-          currentLatitude: position.coords.latitude,
-          currentLongitude: position.coords.longitude,
-          locationError: null,
-        });
-        this.renderDirections();
+        console.log(position);
+        this.setState(
+          {
+            currentLatitude: position.coords.latitude,
+            currentLongitude: position.coords.longitude,
+            locationError: null,
+          },
+          () => {
+            this.renderDirections();
+          }
+        );
       },
       error => {
+        console.log(error);
         this.setState({ locationError: error.message });
       },
-      {
-        enableHighAccuracy: false,
-        timeout: this.state.locationTimeOut,
-        maximumAge: 600000,
-        distanceFilter: 10,
-      }
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 10000 }
     );
   }
 
@@ -121,43 +175,32 @@ class MarriageMapView extends Component {
     return (
       <Marker
         key={"poi"}
-        title={"St Thomas Church"}
+        title={"St Marys Church"}
         image={require("../../assets/church-map-icon-marker.png")}
         coordinate={{ latitude: 8.8891845, longitude: 76.682741 }}
         onPress={() => {}}
       />
     );
   };
-  onBackPress = () => {
-    this.props.navigation.goBack();
-    if (this.state.isShowingDirections) {
-      this.setState({ isShowingDirections: false });
-    } else {
-    }
-    return true;
-  };
-  renderDirections=()=> {
-    console.log("inside render directions");
-    console.log(this.state.currentLatitude);
-    console.log(this.state.currentLongitude);
+
+  renderDirections = () => {
     if (this.state.currentLatitude !== null) {
       let renderedDirection = [];
       renderedDirection = renderedDirection.concat(
         <MapViewDirections
-          key={"directions"}
-          origin={{
-            latitude: this.state.currentLatitude,
-            longitude: this.state.currentLongitude,
-          }}
+          key={"directions"} 
           destination={{
             latitude: 8.8891845,
             longitude: 76.682741,
+          }}
+          origin={{
+            latitude: this.state.currentLatitude,
+            longitude: this.state.currentLongitude,
           }}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor="#4286f4"
           onReady={result => {
-            console.log(result);
             this.mapView.fitToCoordinates(result.coordinates, {
               edgePadding: {
                 right: 20,
@@ -167,27 +210,55 @@ class MarriageMapView extends Component {
               },
             });
           }}
-          onError={errorMessage => {}}
+          onError={errorMessage => {
+          }}
         />
       );
       renderedDirection = renderedDirection.concat(
         <Marker
           image={require("../../assets/church_marker.png")}
           key={"selected_poi"}
-          title={"St Thomas Church"}
+          title={"St Marys Church"}
           coordinate={{
             latitude: 8.8891845,
             longitude: 76.682741,
+          }}
+          onPress={() => {
+            this.handleGetDirections();
           }}
         />
       );
       console.log(renderedDirection);
       return renderedDirection;
     } else {
+      console.log("else current latitude null");
       return [];
     }
+  };
+  handleGetDirections = () => {
+    const data = {
+       source: {
+        latitude: this.state.currentLatitude,
+        longitude: this.state.currentLongitude
+      },
+      destination: {
+        latitude: 8.8891845,
+            longitude: 76.682741,
+      },
+      params: [
+        {
+          key: "travelmode",
+          value: "driving"        // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: "dir_action",
+          value: "navigate"       // this instantly initializes navigation using the given travel mode 
+        }
+      ]
+    }
+ 
+    getDirections(data)
   }
-
   renderMapContent() {
     if (this.state.isShowingDirections) {
       return this.renderDirections();
@@ -198,27 +269,27 @@ class MarriageMapView extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <StatusBar
-        // translucent={true}
-        backgroundColor={'rgba(52, 52, 52, 0.8)'}
-        barStyle={"light-content"}
-      />
-      <View style={styles.toolbar}>
-        <TouchableOpacity
-          style={styles.backIconContainer}
-          onPress={() => {
-            this.onBackPress();
-          }}
-        >
-          <Image
-            source={require("../../assets/back_icon.png")}
-            style={styles.backIcon}
-          />
-        </TouchableOpacity>
+        <StatusBar
+          // translucent={true}
+          backgroundColor={"rgba(52, 52, 52, 0.8)"}
+          barStyle={"light-content"}
+        />
+        <View style={styles.toolbar}>
+          <TouchableOpacity
+            style={styles.backIconContainer}
+            onPress={() => {
+              this.onBackPress();
+            }}
+          >
+            <Image
+              source={require("../../assets/back_icon.png")}
+              style={styles.backIcon}
+            />
+          </TouchableOpacity>
 
-        <Text style={styles.toolBarHeading}>Gallery</Text>
-      </View>
-      <View style={styles.contentContainer}>
+          <Text style={styles.toolBarHeading}>Map</Text>
+        </View>
+        <View style={styles.contentContainer}>
           <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
             style={styles.map}
@@ -238,16 +309,17 @@ class MarriageMapView extends Component {
             moveOnMarkerPress={false}
             ref={ref => (this.mapView = ref)}
           >
-            {/* <Marker
+            <Marker
               key={"poi"}
-              title={"St Thomas Church"}
+              title={"St Marys Church"}
               image={require("../../assets/church_marker.png")}
-              coordinate={{ latitude: 11.8799197, longitude: 75.7677182 }}
-              onPress={() => {}}
-            /> */}
+              coordinate={{ latitude: 8.8891845, longitude: 76.682741 }}
+              onPress={() => {
+                this.handleGetDirections();
+              }}
+            />
             {this.renderMapContent()}
           </MapView>
-          
         </View>
       </View>
     );
@@ -266,4 +338,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MarriageMapView);
+export default connect(mapStateToProps, mapDispatchToProps)(MapViewScreen);

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, StatusBar, View, BackHandler } from "react-native";
+import { Text,Image, StatusBar, View, BackHandler } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ActionCreators } from "../actions/index";
@@ -18,7 +18,7 @@ class SplashScreen extends Component {
   };
   componentDidMount() {
     setTimeout(() => {
-        this.props.navigation.navigate('Home');
+        //this.props.navigation.navigate('Home');
     }, 2000);
   }
   render() {
@@ -26,7 +26,7 @@ class SplashScreen extends Component {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <Image
-            source={require("../../assets/wed1.jpg")}
+            source={require("../../assets/splash_screen.jpg")}
             style={styles.backgroundImage}
           />
           <StatusBar
@@ -34,6 +34,7 @@ class SplashScreen extends Component {
             backgroundColor="transparent"
             barStyle={"light-content"}
           />
+          <Text>gdfggh</Text>
         </View>
       </View>
     );

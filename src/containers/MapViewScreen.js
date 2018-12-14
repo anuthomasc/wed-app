@@ -7,9 +7,10 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import getDirections from 'react-native-google-maps-directions'
 import { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { connect } from "react-redux";
@@ -22,7 +23,7 @@ class MapViewScreen extends Component {
     super(props);
     this.searchTimeOutId = null;
     this.state = {
-      isShowingDirections: false,
+      isShowingDirections: true,
       currentRegion: {
         latitude: 11.8799197,
         longitude: 75.7677182,
@@ -58,10 +59,10 @@ class MapViewScreen extends Component {
           console.log("no permission");
           this.requestLocationPermission().then(locationPermission => {
             if (locationPermission) {
-              console.log("loca permsn")
+              console.log("loca permsn");
               return true;
             } else {
-              console.log("fal permsn")
+              console.log("fal permsn");
               return false;
             }
           });
@@ -91,9 +92,54 @@ class MapViewScreen extends Component {
       return false;
     }
   }
+  async requestPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: "Cool Photo App Camera Permission",
+          message:
+            "Cool Photo App needs access to your camera " +
+            "so you can take awesome pictures.",
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            console.log(position);
+            console.log("location kitti");
+            this.setState(
+              {
+                currentLatitude: position.coords.latitude,
+                currentLongitude: position.coords.longitude,
+                locationError: null,
+              },
+              () => {
+                this.renderDirections();
+              }
+            );
+          },
+          error => {
+            console.log(error);
+            this.setState({ locationError: error.message });
+          },
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
+        );
+      } else {
+        console.log("location permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+  componentWillMount() {
+    this.requestPermission();
+  }
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
-    this.checkLocationPermission();
+    //const a= await this.requestPermission();
+
+    // this.checkLocationPermission();
     this.setState({
       currentRegion: {
         latitude: 11.8799197,
@@ -104,30 +150,32 @@ class MapViewScreen extends Component {
     });
     navigator.geolocation.getCurrentPosition(
       position => {
-        this.setState({
-          currentLatitude: position.coords.latitude,
-          currentLongitude: position.coords.longitude,
-          locationError: null,
-        });
-        this.renderDirections();
+        console.log(position);
+        this.setState(
+          {
+            currentLatitude: position.coords.latitude,
+            currentLongitude: position.coords.longitude,
+            locationError: null,
+          },
+          () => {
+            this.renderDirections();
+          }
+        );
       },
       error => {
+        console.log(error);
         this.setState({ locationError: error.message });
       },
-      {
-        enableHighAccuracy: false,
-        timeout: this.state.locationTimeOut,
-        maximumAge: 600000,
-        distanceFilter: 10,
-      }
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 10000 }
     );
   }
 
   componentWillUnmount() {
     BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
-  //  navigator.geolocation.clearWatch(this.watchId);
+    navigator.geolocation.clearWatch(this.watchId);
   }
   renderMarkers = () => {
+    console.log("renderMarker");
     this.setState({ isShowingDirections: true });
     return (
       <Marker
@@ -139,26 +187,25 @@ class MapViewScreen extends Component {
       />
     );
   };
-  
-  renderDirections=()=> {
+
+  renderDirections = () => {
     if (this.state.currentLatitude !== null) {
       let renderedDirection = [];
       renderedDirection = renderedDirection.concat(
         <MapViewDirections
-          key={"directions"}
-          origin={{
-            latitude: this.state.currentLatitude,
-            longitude: this.state.currentLongitude,
-          }}
+          key={"directions"} 
           destination={{
             latitude: 11.8799197,
             longitude: 75.7677182,
+          }}
+          origin={{
+            latitude: this.state.currentLatitude,
+            longitude: this.state.currentLongitude,
           }}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor="#4286f4"
           onReady={result => {
-            console.log(result);
             this.mapView.fitToCoordinates(result.coordinates, {
               edgePadding: {
                 right: 20,
@@ -168,7 +215,8 @@ class MapViewScreen extends Component {
               },
             });
           }}
-          onError={errorMessage => {}}
+          onError={errorMessage => {
+          }}
         />
       );
       renderedDirection = renderedDirection.concat(
@@ -180,15 +228,42 @@ class MapViewScreen extends Component {
             latitude: 11.8799197,
             longitude: 75.7677182,
           }}
+          onPress={() => {
+            this.handleGetDirections();
+          }}
         />
       );
       console.log(renderedDirection);
       return renderedDirection;
     } else {
+      console.log("else current latitude null");
       return [];
     }
+  };
+  handleGetDirections = () => {
+    const data = {
+       source: {
+        latitude: this.state.currentLatitude,
+        longitude: this.state.currentLongitude
+      },
+      destination: {
+        latitude: 11.8799197,
+            longitude: 75.7677182,
+      },
+      params: [
+        {
+          key: "travelmode",
+          value: "driving"        // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: "dir_action",
+          value: "navigate"       // this instantly initializes navigation using the given travel mode 
+        }
+      ]
+    }
+ 
+    getDirections(data)
   }
-
   renderMapContent() {
     if (this.state.isShowingDirections) {
       return this.renderDirections();
@@ -201,7 +276,7 @@ class MapViewScreen extends Component {
       <View style={styles.container}>
         <StatusBar
           // translucent={true}
-          backgroundColor={'rgba(52, 52, 52, 0.8)'}
+          backgroundColor={"rgba(52, 52, 52, 0.8)"}
           barStyle={"light-content"}
         />
         <View style={styles.toolbar}>
@@ -217,10 +292,9 @@ class MapViewScreen extends Component {
             />
           </TouchableOpacity>
 
-          <Text style={styles.toolBarHeading}>Gallery</Text>
+          <Text style={styles.toolBarHeading}>Map</Text>
         </View>
         <View style={styles.contentContainer}>
-
           <MapView
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
             style={styles.map}
@@ -240,16 +314,17 @@ class MapViewScreen extends Component {
             moveOnMarkerPress={false}
             ref={ref => (this.mapView = ref)}
           >
-            {/* <Marker
+            <Marker
               key={"poi"}
               title={"St Thomas Church"}
               image={require("../../assets/church_marker.png")}
               coordinate={{ latitude: 11.8799197, longitude: 75.7677182 }}
-              onPress={() => {}}
-            /> */}
+              onPress={() => {
+                this.handleGetDirections();
+              }}
+            />
             {this.renderMapContent()}
           </MapView>
-          
         </View>
       </View>
     );
