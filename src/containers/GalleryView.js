@@ -16,89 +16,197 @@ import { responsiveHeight, responsiveWidth } from "../helpers/Responsive";
 import styles from "../styles/galleryStyle";
 const imagesArray = [
   {
-    source: require("../../assets/aj1.jpg"),
+    source: require("../../assets/a0.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj2.jpg"),
+    source: require("../../assets/a2.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj3.jpg"),
+    source: require("../../assets/a3.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj4.jpg"),
+    source: require("../../assets/a5.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj5.jpg"),
+    source: require("../../assets/a6.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj3.jpg"),
+    source: require("../../assets/a7.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj1.jpg"),
+    source: require("../../assets/a8.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj2.jpg"),
+    source: require("../../assets/a9.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj5.jpg"),
+    source: require("../../assets/a10.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj3.jpg"),
+    source: require("../../assets/a11.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj2.jpg"),
+    source: require("../../assets/a12.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
   {
-    source: require("../../assets/aj1.jpg"),
+    source: require("../../assets/a13.jpg"),
     dimensions: {
       width: responsiveWidth(31),
       height: responsiveWidth(31),
     },
   },
+
+    {
+      source: require("../../assets/a16.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/a17.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/a18.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/a20.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/a21.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/a22.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/aj1.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/aj3.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/aj4.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/aj5.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/j1.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+      source: require("../../assets/j2.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+    {
+          source: require("../../assets/j3.jpg"),
+          dimensions: {
+            width: responsiveWidth(31),
+            height: responsiveWidth(31),
+          },
+          },
+    {
+          source: require("../../assets/j4.jpg"),
+          dimensions: {
+            width: responsiveWidth(31),
+            height: responsiveWidth(31),
+          },
+        },
+    {
+      source: require("../../assets/j5.jpg"),
+      dimensions: {
+        width: responsiveWidth(31),
+        height: responsiveWidth(31),
+      },
+    },
+
+
 ];
 class GalleryView extends Component {
   constructor(props) {
@@ -169,8 +277,6 @@ class GalleryView extends Component {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    console.log(item);
-                    console.log("ggdsae");
                     this.setState({
                       selectedIndex: index,
                       showGalleryView: true,
