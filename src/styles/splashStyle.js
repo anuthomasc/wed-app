@@ -27,6 +27,36 @@ const styles = StyleSheet.create({
     
    // opacity:0.6
   },
+  imageMainContainer:{
+  marginTop:responsiveWidth(50),
+  width:responsiveWidth(100),
+  paddingLeft:responsiveWidth(15),
+  flexDirection:'row',
+  alignItems:'center'
+  },
+   imageMainContainer2:{
+    marginTop:responsiveWidth(8),
+    width:responsiveWidth(100),
+    paddingLeft:responsiveWidth(15),
+    flexDirection:'row',
+  alignItems:'center'
+
+    },
+  pic1:{
+  width:responsiveWidth(20),
+  height:responsiveWidth(20),
+  borderRadius:100
+  },
+  pic2:{
+    width:responsiveWidth(20),
+    height:responsiveWidth(20),
+    borderRadius:100
+    },
+    text:{
+    color:'#555',
+    fontSize:responsiveFontSize(3),
+    padding:responsiveWidth(3)
+    }
 });
 
 export default styles;

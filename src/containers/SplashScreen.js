@@ -34,7 +34,20 @@ class SplashScreen extends Component {
             backgroundColor="transparent"
             barStyle={"light-content"}
           />
-          <Text>gdfggh</Text>
+          <View style={styles.imageMainContainer}>
+             <Image
+                        source={require("../../assets/jobii1.jpg")}
+                        style={styles.pic1}
+                      />
+                      <Text style={styles.text}>Jobin</Text>
+            </View>
+             <View style={styles.imageMainContainer2}>
+             <Text style={styles.text}>Aleena</Text>
+                         <Image
+                                    source={require("../../assets/chunni1.jpg")}
+                                    style={styles.pic2}
+                                  />
+                        </View>
         </View>
       </View>
     );
