@@ -12,13 +12,13 @@ import LinearGradient from "react-native-linear-gradient";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ActionCreators } from "../actions/index";
-import { responsiveWidth } from "../helpers/Responsive";
+import { responsiveWidth, responsiveFontSize } from "../helpers/Responsive";
 import styles from "../styles/homeStyle";
 const actions = [
   {
     color: "transparent",
     text: "Location",
-    icon: require("../../assets/pink_location.png"),
+    icon: require("../../assets/rmap.png"),
     name: "location",
     position: 1,
     textBackground: "transparent",
@@ -28,7 +28,7 @@ const actions = [
   },
   {
     text: "Invitation",
-    icon: require("../../assets/pink_invitation.png"),
+    icon: require("../../assets/rinvitation.png"),
     name: "invitation",
     position: 2,
     textBackground: "transparent",
@@ -39,7 +39,7 @@ const actions = [
   },
   {
     text: "Gallery",
-    icon: require("../../assets/pink_camera.png"),
+    icon: require("../../assets/rgallery.png"),
     name: "gallery",
     position: 3,
     textBackground: "transparent",
@@ -111,142 +111,166 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.contentContainer}>
-          {/* <LinearGradient
+      
+        {(false) ? (
+          <View style={styles.contentContainer}>
+            <Image
+              source={require("../../assets/justmarried.jpg")}
+              style={styles.backgroundImage}
+            />
+            <StatusBar
+              translucent={true}
+              backgroundColor="transparent"
+              barStyle={"light-content"}
+            />
+            <View style={styles.countDownContainer}>
+              {/* <Text
+                style={{
+                  color: "#ff3377",
+                  fontSize: responsiveFontSize(5),
+                }}>
+                Thank you !
+              </Text> */}
+            </View>
+          </View>
+        ) : (
+          <View style={styles.contentContainer}>
+            {/* <LinearGradient
             colors={["#ff3377", "#ff80aa", "#ffe6ee", "#fff"]}
             // colors={["#800080", "#ffc0cb"]}
             style={styles.linearGradient}
           > */}
-          {this.state.fadeBG ? (
-            <View
-              style={{
-                width: responsiveWidth(100),
-              }}
-            >
+            {this.state.fadeBG ? (
+              <View
+                style={{
+                  width: responsiveWidth(100),
+                }}
+              >
+                <Image
+                  source={require("../../assets/bg.jpg")}
+                  style={styles.backgroundImage}
+                />
+                <Image
+                  source={require("../../assets/background.png")}
+                  style={styles.backgroundImage2}
+                />
+              </View>
+            ) : (
               <Image
                 source={require("../../assets/bg.jpg")}
                 style={styles.backgroundImage}
               />
-              <Image
-                source={require("../../assets/background.png")}
-                style={styles.backgroundImage2}
-              />
-            </View>
-          ) : (
-            <Image
-              source={require("../../assets/bg.jpg")}
-              style={styles.backgroundImage}
-            />
-          )}
-          {/* <Image
+            )}
+            {/* <Image
             source={require("../../assets/background.png")}
             style={styles.backgroundImage}
           /> */}
-          <StatusBar
-            translucent={true}
-            backgroundColor="transparent"
-            barStyle={"light-content"}
-          />
-          <ScrollView>
-            <View style={styles.countDownContainer}>
-              <View style={styles.circleContainer}>
-                <View style={styles.innerCircleContainer}>
-                  <View style={styles.circle}>
-                    <LinearGradient
-                      colors={["#A8A3C3", "#FFD3FD", "#D1E1FD"]}
-                      // colors={["#800080", "#ffc0cb"]}
-                      style={styles.linearGradient}
-                    >
-                      <Text style={styles.counterTextStyle}>
-                        {this.state.days}
-                      </Text>
-                    </LinearGradient>
+            <StatusBar
+              translucent={true}
+              backgroundColor="transparent"
+              barStyle={"light-content"}
+            />
+            <ScrollView>
+              <View style={styles.countDownContainer}>
+                <View style={styles.circleContainer}>
+                  <View style={styles.innerCircleContainer}>
+                    <View style={styles.circle}>
+                      <LinearGradient
+                        colors={["#A8A3C3", "#FFD3FD", "#D1E1FD"]}
+                        // colors={["#800080", "#ffc0cb"]}
+                        style={styles.linearGradient}
+                      >
+                        <Text style={styles.counterTextStyle}>
+                          {this.state.days}
+                        </Text>
+                      </LinearGradient>
+                    </View>
+                    <Text style={styles.counterText}>Days</Text>
                   </View>
-                  <Text style={styles.counterText}>Days</Text>
-                </View>
-                <View style={styles.innerCircleContainer}>
-                  <View style={styles.circle}>
-                    <LinearGradient
-                      colors={["#A8A3C3", "#FFD3FD", "#D1E1FD"]}
-                      // colors={["#800080", "#ffc0cb"]}
-                      style={styles.linearGradient}
-                    >
-                      <Text style={styles.counterTextStyle}>
-                        {this.state.hours}
-                      </Text>
-                    </LinearGradient>
+                  <View style={styles.innerCircleContainer}>
+                    <View style={styles.circle}>
+                      <LinearGradient
+                        colors={["#A8A3C3", "#FFD3FD", "#D1E1FD"]}
+                        // colors={["#800080", "#ffc0cb"]}
+                        style={styles.linearGradient}
+                      >
+                        <Text style={styles.counterTextStyle}>
+                          {this.state.hours}
+                        </Text>
+                      </LinearGradient>
+                    </View>
+                    <Text style={styles.counterText}>Hours</Text>
                   </View>
-                  <Text style={styles.counterText}>Hours</Text>
-                </View>
-                <View style={styles.innerCircleContainer}>
-                  <View style={styles.circle}>
-                    <LinearGradient
-                      colors={["#A8A3C3", "#FFD3FD", "#D1E1FD"]}
-                      // colors={["#800080", "#ffc0cb"]}
-                      style={styles.linearGradient}
-                    >
-                      <Text style={styles.counterTextStyle}>
-                        {this.state.minutes}
-                      </Text>
-                    </LinearGradient>
+                  <View style={styles.innerCircleContainer}>
+                    <View style={styles.circle}>
+                      <LinearGradient
+                        colors={["#A8A3C3", "#FFD3FD", "#D1E1FD"]}
+                        // colors={["#800080", "#ffc0cb"]}
+                        style={styles.linearGradient}
+                      >
+                        <Text style={styles.counterTextStyle}>
+                          {this.state.minutes}
+                        </Text>
+                      </LinearGradient>
+                    </View>
+                    <Text style={styles.counterText}>Minutes</Text>
                   </View>
-                  <Text style={styles.counterText}>Minutes</Text>
-                </View>
-                <View style={styles.innerCircleContainer}>
-                  <View style={styles.circle}>
-                    <LinearGradient
-                      colors={["#A8A3C3", "#FFD3FD", "#D1E1FD"]}
-                      // colors={["#800080", "#ffc0cb"]}
-                      style={styles.linearGradient}
-                    >
-                      <Text style={styles.counterTextStyle}>
-                        {this.state.seconds}
-                      </Text>
-                    </LinearGradient>
-                  </View>
+                  <View style={styles.innerCircleContainer}>
+                    <View style={styles.circle}>
+                      <LinearGradient
+                        colors={["#A8A3C3", "#FFD3FD", "#D1E1FD"]}
+                        // colors={["#800080", "#ffc0cb"]}
+                        style={styles.linearGradient}
+                      >
+                        <Text style={styles.counterTextStyle}>
+                          {this.state.seconds}
+                        </Text>
+                      </LinearGradient>
+                    </View>
 
-                  <Text style={styles.counterText}>Seconds</Text>
+                    <Text style={styles.counterText}>Seconds</Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          </ScrollView>
-          <FloatingAction
-            ref={ref => {
-              this.floatingAction = ref;
-            }}
-            actions={actions}
-            onPressItem={name => {
-              this.setState({
-                fadeBG: false,
-              });
-              if (name == "gallery") {
-                this.props.navigation.navigate("Gallery");
-              } else if (name == "location") {
-                this.props.navigation.navigate("Location");
-              } else if (name == "invitation") {
-                this.props.navigation.navigate("Invitation");
-              }
-            }}
-            onPressMain={() => {
-              if (this.state.fadeBG) {
-                // this.setState({
-                //   fadeBG: false,
-                // });
-              } else {
-                // this.setState({
-                //   fadeBG: true,
-                // });
-              }
-            }}
-            floatingIcon={require("../../assets/ring.png")}
-            color={"#bb33ff"}
-            iconWidth={responsiveWidth(15)}
-            iconHeight={responsiveWidth(15)}
-            showBackground={false}
-            position="left"
-          />
-          {/* </LinearGradient> */}
-        </View>
+            </ScrollView>
+            <FloatingAction
+              ref={ref => {
+                this.floatingAction = ref;
+              }}
+              actions={actions}
+              onPressItem={name => {
+                this.setState({
+                  fadeBG: false,
+                });
+                if (name == "gallery") {
+                  this.props.navigation.navigate("Gallery");
+                } else if (name == "location") {
+                  this.props.navigation.navigate("Location");
+                } else if (name == "invitation") {
+                  this.props.navigation.navigate("Invitation");
+                }
+              }}
+              onPressMain={() => {
+                if (this.state.fadeBG) {
+                  this.setState({
+                    fadeBG: false,
+                  });
+                } else {
+                  this.setState({
+                    fadeBG: true,
+                  });
+                }
+              }}
+              floatingIcon={require("../../assets/ring.png")}
+              color={"#bb33ff"}
+              iconWidth={responsiveWidth(15)}
+              iconHeight={responsiveWidth(15)}
+              showBackground={false}
+              position="left"
+            />
+            {/* </LinearGradient> */}
+          </View>
+        )}
       </View>
     );
   }
