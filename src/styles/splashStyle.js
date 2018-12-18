@@ -24,32 +24,39 @@ const styles = StyleSheet.create({
     height: responsiveHeight(100),
     position: "absolute",
     flex: 1,
-    
-   // opacity:0.6
   },
   imageMainContainer:{
-  marginTop:responsiveWidth(50),
+  marginTop:responsiveWidth(40),
   width:responsiveWidth(100),
   paddingLeft:responsiveWidth(15),
   flexDirection:'row',
   alignItems:'center'
   },
    imageMainContainer2:{
-    marginTop:responsiveWidth(8),
+    //marginTop:responsiveWidth(3),
     width:responsiveWidth(100),
     paddingLeft:responsiveWidth(15),
     flexDirection:'row',
-  alignItems:'center'
+  alignItems:'center',
+   marginLeft:responsiveWidth(30),
 
     },
+    imageMainContainer3:{
+      //  marginTop:responsiveWidth(3),
+        width:responsiveWidth(100),
+        paddingLeft:responsiveWidth(15),
+        flexDirection:'row',
+        alignItems:'center',
+         marginLeft:responsiveWidth(50),
+    },
   pic1:{
-  width:responsiveWidth(20),
-  height:responsiveWidth(20),
-  borderRadius:100
+      width:responsiveWidth(24),
+      height:responsiveWidth(24),
+      borderRadius:100
   },
   pic2:{
-    width:responsiveWidth(20),
-    height:responsiveWidth(20),
+    width:responsiveWidth(24),
+    height:responsiveWidth(24),
     borderRadius:100
     },
     text:{

@@ -39,15 +39,19 @@ class SplashScreen extends Component {
                         source={require("../../assets/jobii1.jpg")}
                         style={styles.pic1}
                       />
-                      <Text style={styles.text}>Jobin</Text>
             </View>
              <View style={styles.imageMainContainer2}>
-             <Text style={styles.text}>Aleena</Text>
-                         <Image
-                                    source={require("../../assets/chunni1.jpg")}
-                                    style={styles.pic2}
-                                  />
-                        </View>
+             <Image
+                source={require("../../assets/love.png")}
+                style={styles.pic2}
+              />
+            </View>
+            <View style={styles.imageMainContainer3}>
+             <Image
+                source={require("../../assets/chunni1.jpg")}
+                style={styles.pic2}
+              />
+            </View>
         </View>
       </View>
     );
